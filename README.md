@@ -2,6 +2,8 @@
 
 *Mathematical & optical typography for Humans and AI Agents.*
 
+**[Live Interactive Specimen & Presentation](http://chamaththiwanka.me/typeset/)**
+
 `typeset` encodes non-lossy mathematical laws, W3C CSS Level 3/4/5 invariants, and de-clichéd type curation directly into an AI agent skill for Google Antigravity and universal agent runners. It eliminates typographic guesswork, default template fatigue (`Inter`, `Roboto`, `Open Sans`), and OS font fragmentation.
 
 ---
