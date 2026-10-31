@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Typeset — The Kinetic Typography Museum</title>
-  <meta name="description" content="A visceral, interactive museum of digital typography. Closed-form optical laws, living type physics, and de-clichéd curation.">
+  <title>Typeset — Kinetic Typography Cinema &amp; Interactive Museum</title>
+  <meta name="description" content="A cinematic, interactive motion-demonstration of digital typography physics. Opus 5.5-grade motionography, closed-form optical laws, and zero visual clutter.">
   
   <!-- Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,10 +39,6 @@
       --radius-sm: 6px;
       --radius-md: 14px;
       --radius-lg: 20px;
-      
-      /* Dynamic Cursor Focal Spotlight */
-      --spotlight-x: 50%;
-      --spotlight-y: 50%;
     }
 
     [data-theme="dark"] {
@@ -80,7 +76,7 @@
       letter-spacing: 0;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      transition: background-color 0.3s ease, color 0.3s ease;
       overflow-x: hidden;
     }
 
@@ -130,7 +126,7 @@
       justify-content: space-between;
       padding: 24px 0 32px;
       border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 40px;
+      margin-bottom: 36px;
       flex-wrap: wrap;
       gap: 16px;
       min-width: 0;
@@ -213,32 +209,38 @@
       transform: translateY(1px);
     }
 
-    /* PRIMARY SHOWCASE CENTERPIECE: The Kinetic Focal Spotlight Stage */
-    .museum-stage {
+    /* PRIMARY CINEMA SHOWCASE: The Motion Product Theater (Dominant D_Zipf >= 0.48) */
+    .motion-theater {
       background: var(--surface-1);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 64px 48px;
-      margin-bottom: 56px;
+      padding: 56px 48px;
+      margin-bottom: 48px;
       position: relative;
-      user-select: none;
+      overflow: hidden;
       min-width: 0;
-      cursor: crosshair;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .stage-instruction-bar {
+    /* Cinematic Film Transport Bar */
+    .transport-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
       flex-wrap: wrap;
       gap: 16px;
+      position: relative;
+      z-index: 10;
     }
 
-    .lens-status-pill {
+    .act-indicator {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-size: 13px;
       font-weight: 600;
       color: var(--fg);
@@ -249,14 +251,21 @@
       white-space: nowrap;
     }
 
-    .lens-status-dot {
+    .act-pulse-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: #2BA064;
     }
 
-    .mode-switch-btn {
+    .playback-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .play-btn {
       background: var(--fg);
       color: var(--bg);
       border: none;
@@ -272,91 +281,85 @@
       transition: opacity 0.15s ease;
     }
 
-    .mode-switch-btn:hover {
+    .play-btn:hover {
       opacity: 0.9;
     }
 
-    /* The Hero Kinetic Typography Canvas */
-    .specimen-canvas {
-      min-height: 240px;
+    /* The Choreographed Typography Stage */
+    .cinema-stage {
+      min-height: 220px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 24px 0;
       position: relative;
+      padding: 16px 0;
     }
 
-    .hero-title-sculpture {
+    .cinema-headline {
       font-size: 64px;
       font-weight: 600;
       line-height: 1.06;
       letter-spacing: -0.031em;
       color: var(--fg);
       text-wrap: balance;
-      transition: letter-spacing 0.25s cubic-bezier(0.22, 1, 0.36, 1), font-family 0.25s ease;
+      transition: letter-spacing 0.35s cubic-bezier(0.22, 1, 0.36, 1), font-family 0.3s ease, line-height 0.35s ease;
     }
 
-    .hero-title-sculpture em {
+    .cinema-headline em {
       font-family: var(--font-signature);
       font-style: italic;
       font-weight: 400;
       font-size: 1em;
       letter-spacing: -0.015em;
       padding: 0 0.04em;
+      transition: font-family 0.3s ease, font-style 0.3s ease;
     }
 
-    .museum-stage.mode-raw .hero-title-sculpture {
-      font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      letter-spacing: 0.01em;
-      line-height: 1.30;
-      font-weight: 400;
-    }
-
-    .museum-stage.mode-raw .hero-title-sculpture em {
-      font-family: inherit;
-      font-style: normal;
-      font-weight: 700;
-    }
-
-    .stage-caption {
-      font-size: 13px;
+    .cinema-subtext {
+      font-size: 16px;
       color: var(--fg-muted);
+      line-height: 1.6;
+      max-width: 35em;
       margin-top: 16px;
-      font-family: var(--font-substrate);
+      transition: opacity 0.2s ease;
     }
 
-    /* Live Telemetry Radar Strip */
-    .stage-telemetry-strip {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* Interactive Timeline Scrubber */
+    .timeline-scrubber-row {
       margin-top: 36px;
       padding-top: 24px;
       border-top: 1px dashed var(--border);
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .telemetry-item {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
-    .telemetry-tag {
+    .timeline-label {
       font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--fg-subtle);
       font-weight: 600;
+      color: var(--fg-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      min-width: 110px;
     }
 
-    .telemetry-readout {
+    input[type="range"] {
+      font-size: 16px;
+      flex: 1;
+      min-width: 140px;
+      accent-color: var(--fg);
+      height: 6px;
+      cursor: pointer;
+    }
+
+    .timeline-timestamp {
       font-family: var(--font-substrate);
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 600;
-      color: var(--fg);
-      font-variant-numeric: tabular-nums slashed-zero;
+      min-width: 50px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
     }
 
     /* 1-Click Universal Install Bar */
@@ -476,10 +479,10 @@
       .exhibits-grid {
         grid-template-columns: 1fr;
       }
-      .museum-stage {
+      .motion-theater {
         padding: 32px 24px;
       }
-      .hero-title-sculpture {
+      .cinema-headline {
         font-size: 40px !important;
       }
     }
@@ -507,7 +510,7 @@
       max-width: 35em;
     }
 
-    /* Interactive Demonstration Widgets (Tagged data-viz="true" as 1 composite atom) */
+    /* Interactive Demonstration Widgets */
     .interactive-slider-box {
       margin-top: 20px;
       background: var(--surface-2);
@@ -530,14 +533,6 @@
       display: flex;
       align-items: center;
       gap: 16px;
-    }
-
-    input[type="range"] {
-      font-size: 16px;
-      flex: 1;
-      accent-color: var(--fg);
-      height: 6px;
-      cursor: pointer;
     }
 
     .slider-tag-val {
@@ -577,7 +572,7 @@
       color: var(--bg);
       padding: 12px 24px;
       min-height: 44px;
-      border-radius: 4px; /* Concentric Curvature: max(0, r_out - pad) */
+      border-radius: 4px;
       font-size: 16px;
       font-weight: 600;
       border: none;
@@ -757,7 +752,7 @@
       <a href="#" class="brand-mark">
         <div class="brand-icon">T</div>
         <div class="brand-title">Typeset</div>
-        <span class="brand-tag">Kinetic Museum</span>
+        <span class="brand-tag">Motion Cinema</span>
       </a>
 
       <div class="topbar-actions">
@@ -772,47 +767,38 @@
       </div>
     </header>
 
-    <!-- PRIMARY SHOWCASE CENTERPIECE: The Kinetic Focal Spotlight Stage -->
-    <section class="museum-stage" id="museumStage" data-stage="primary" aria-label="Interactive Typographic Lens">
-      <div class="stage-instruction-bar">
-        <div class="lens-status-pill">
-          <span class="lens-status-dot"></span>
-          <span id="lensStateLabel">Typeset Engine Active &bull; Click anywhere to toggle comparison</span>
+    <!-- PRIMARY CINEMA SHOWCASE: The Motion Product Theater (Dominant D_Zipf >= 0.48) -->
+    <section class="motion-theater" id="motionTheater" data-stage="primary" aria-label="Cinematic Typography Demonstration">
+      <!-- Transport Bar -->
+      <div class="transport-bar">
+        <div class="act-indicator">
+          <span class="act-pulse-dot" id="pulseDot"></span>
+          <span id="actLabel">Act 1 &bull; Unchecked Web Defaults</span>
         </div>
 
-        <button class="mode-switch-btn" id="lockRevealBtn" type="button">
-          <span id="lockBtnText">Compare with Default Template</span>
-        </button>
+        <div class="playback-controls">
+          <button class="play-btn" id="playPauseBtn" type="button">
+            <span id="playIcon">&block;&block;</span>
+            <span id="playText">Pause Demo</span>
+          </button>
+        </div>
       </div>
 
-      <!-- The Headline Canvas -->
-      <div class="specimen-canvas" id="canvasArena">
-        <h1 class="hero-title-sculpture" id="headlineText">
-          Mathematical harmony for <em>bespoke digital substrates.</em>
+      <!-- Choreographed Typography Centerpiece -->
+      <div class="cinema-stage">
+        <h1 class="cinema-headline t-disp" id="cinemaTitle">
+          Mathematical harmony for <em id="signatureAccent">bespoke digital substrates.</em>
         </h1>
-        <div class="stage-caption" id="headlineCaption">
-          &check; Typeset: Logarithmic negative tracking (-0.031em), hyperbolic tension (1.06&times;), italic voice shift
-        </div>
+        <p class="cinema-subtext" id="cinemaNarrative">
+          Standard web interfaces guess typography arbitrarily, resulting in loose tracking, reading fatigue, and jarring layout shifts.
+        </p>
       </div>
 
-      <!-- Live Telemetry Radar Strip -->
-      <div class="stage-telemetry-strip">
-        <div class="telemetry-item">
-          <span class="telemetry-tag">Optical Tracking</span>
-          <span class="telemetry-readout" id="readoutTracking">-0.031em</span>
-        </div>
-        <div class="telemetry-item">
-          <span class="telemetry-tag">Line Tension</span>
-          <span class="telemetry-readout" id="readoutLeading">1.06&times;</span>
-        </div>
-        <div class="telemetry-item">
-          <span class="telemetry-tag">Metric Box Trim</span>
-          <span class="telemetry-readout" id="readoutTrim">cap alphabetic</span>
-        </div>
-        <div class="telemetry-item">
-          <span class="telemetry-tag">TrueGrade Polarity</span>
-          <span class="telemetry-readout" id="readoutGrade">0 (Light)</span>
-        </div>
+      <!-- Scrubber Timeline -->
+      <div class="timeline-scrubber-row">
+        <span class="timeline-label">Film Scrubber</span>
+        <input type="range" id="filmScrubber" min="0" max="1000" value="0" step="1" aria-label="Scrub through motion demonstration">
+        <span class="timeline-timestamp" id="timestampReadout">0.0s</span>
       </div>
     </section>
 
@@ -1009,13 +995,18 @@
     </footer>
   </main>
 
-  <!-- Interactive Museum Logic -->
+  <!-- Highfield Katana & Remotion-Calibrated Motionography Engine -->
   <script>
-    const museumStage = document.getElementById('museumStage');
-    const lockRevealBtn = document.getElementById('lockRevealBtn');
-    const lockBtnText = document.getElementById('lockBtnText');
-    const lensStateLabel = document.getElementById('lensStateLabel');
-    const headlineCaption = document.getElementById('headlineCaption');
+    const filmScrubber = document.getElementById('filmScrubber');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const actLabel = document.getElementById('actLabel');
+    const pulseDot = document.getElementById('pulseDot');
+    const cinemaTitle = document.getElementById('cinemaTitle');
+    const signatureAccent = document.getElementById('signatureAccent');
+    const cinemaNarrative = document.getElementById('cinemaNarrative');
+    const timestampReadout = document.getElementById('timestampReadout');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeLabel = document.getElementById('themeLabel');
     const copyBtn = document.getElementById('copyBtn');
@@ -1026,45 +1017,101 @@
     const trackingSlider = document.getElementById('trackingSlider');
     const trackingReadout = document.getElementById('trackingReadout');
     const breathingText = document.getElementById('breathingText');
-    const readoutGrade = document.getElementById('readoutGrade');
-    const readoutTracking = document.getElementById('readoutTracking');
-    const readoutLeading = document.getElementById('readoutLeading');
-    const readoutTrim = document.getElementById('readoutTrim');
 
-    let isRawMode = false;
-    let isDarkMode = false;
+    let isPlaying = true;
+    let progress = 0; // 0 to 1000
+    const durationMs = 12000; // 12 seconds full choreographed loop
+    let lastTime = performance.now();
 
-    // Click on Stage to Toggle Comparison
-    museumStage.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) return;
-      toggleComparison();
-    });
+    // 4-Act Storyboard
+    function renderFrame(p) {
+      const t = (p / 1000) * 12; // current seconds
+      timestampReadout.textContent = t.toFixed(1) + 's';
 
-    lockRevealBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleComparison();
-    });
-
-    function toggleComparison() {
-      isRawMode = !isRawMode;
-      if (isRawMode) {
-        museumStage.classList.add('mode-raw');
-        lockBtnText.textContent = 'Restore Typeset Engine';
-        lensStateLabel.textContent = 'Default Template Active (Dead Inter/Arial) • Click to Restore';
-        headlineCaption.innerHTML = '&larr; Default Template: Zero tracking, loose leading, blunt sans';
-        readoutTracking.textContent = '0.000em';
-        readoutLeading.textContent = '1.30×';
-        readoutTrim.textContent = 'Off';
+      if (p < 250) {
+        // ACT 1: Unchecked Web Defaults (0s - 3s)
+        actLabel.textContent = 'Act 1 • Uncalibrated System Sans';
+        pulseDot.style.background = '#E05A47';
+        cinemaTitle.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+        cinemaTitle.style.letterSpacing = '-0.030em';
+        cinemaTitle.style.lineHeight = '1.25';
+        cinemaTitle.style.fontWeight = '500';
+        signatureAccent.style.fontFamily = 'inherit';
+        signatureAccent.style.fontStyle = 'normal';
+        signatureAccent.style.fontWeight = '600';
+        cinemaNarrative.textContent = 'Default system sans lacks optical grade compensation: blunt letterforms, unadjusted vertical rhythm, and zero vocal character.';
+      } else if (p < 500) {
+        // ACT 2: Logarithmic Gravity (3s - 6s)
+        actLabel.textContent = 'Act 2 • Logarithmic Optical Gravity';
+        pulseDot.style.background = '#3B82F6';
+        cinemaTitle.style.fontFamily = 'var(--font-core)';
+        cinemaTitle.style.letterSpacing = '-0.034em';
+        cinemaTitle.style.lineHeight = '1.12';
+        cinemaTitle.style.fontWeight = '600';
+        signatureAccent.style.fontFamily = 'var(--font-core)';
+        signatureAccent.style.fontStyle = 'normal';
+        signatureAccent.style.fontWeight = '600';
+        cinemaNarrative.textContent = 'Law 2 engages: letter-spacing tightens logarithmically as scale expands, eliminating loose display drift.';
+      } else if (p < 750) {
+        // ACT 3: Sculptural Voice Shift (6s - 9s)
+        actLabel.textContent = 'Act 3 • Sculptural Voice Shift';
+        pulseDot.style.background = '#8B5CF6';
+        cinemaTitle.style.fontFamily = 'var(--font-core)';
+        cinemaTitle.style.letterSpacing = '-0.032em';
+        cinemaTitle.style.lineHeight = '1.06';
+        cinemaTitle.style.fontWeight = '600';
+        signatureAccent.style.fontFamily = 'var(--font-signature)';
+        signatureAccent.style.fontStyle = 'italic';
+        signatureAccent.style.fontWeight = '400';
+        cinemaNarrative.textContent = 'Law 1 & 5: High-fashion italic serifs bloom inside the grotesque ground, normalized to the primary x-height.';
       } else {
-        museumStage.classList.remove('mode-raw');
-        lockBtnText.textContent = 'Compare with Default Template';
-        lensStateLabel.textContent = 'Typeset Engine Active • Click anywhere to toggle comparison';
-        headlineCaption.innerHTML = '&check; Typeset: Logarithmic negative tracking (-0.031em), hyperbolic tension (1.06&times;), italic voice shift';
-        readoutTracking.textContent = '-0.031em';
-        readoutLeading.textContent = '1.06×';
-        readoutTrim.textContent = 'cap alphabetic';
+        // ACT 4: Metric Surgery & Locked Harmonic State (9s - 12s)
+        actLabel.textContent = 'Act 4 • Metric Precision Lock';
+        pulseDot.style.background = '#2BA064';
+        cinemaTitle.style.fontFamily = 'var(--font-core)';
+        cinemaTitle.style.letterSpacing = '-0.031em';
+        cinemaTitle.style.lineHeight = '1.06';
+        cinemaTitle.style.fontWeight = '600';
+        signatureAccent.style.fontFamily = 'var(--font-signature)';
+        signatureAccent.style.fontStyle = 'italic';
+        signatureAccent.style.fontWeight = '400';
+        cinemaNarrative.textContent = 'Metric box-trimming strips phantom half-leading. Live metrics lock into zero-wobble tabular columns.';
       }
     }
+
+    // Motion Loop
+    function tick(now) {
+      if (isPlaying) {
+        const delta = now - lastTime;
+        progress = (progress + (delta / durationMs) * 1000) % 1000;
+        filmScrubber.value = Math.round(progress);
+        renderFrame(progress);
+      }
+      lastTime = now;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // Play/Pause
+    playPauseBtn.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        playIcon.innerHTML = '&block;&block;';
+        playText.textContent = 'Pause Demo';
+      } else {
+        playIcon.innerHTML = '&#9658;';
+        playText.textContent = 'Resume Motion';
+      }
+    });
+
+    // Scrubber Interaction
+    filmScrubber.addEventListener('input', () => {
+      isPlaying = false;
+      playIcon.innerHTML = '&#9658;';
+      playText.textContent = 'Resume Motion';
+      progress = parseInt(filmScrubber.value, 10);
+      renderFrame(progress);
+    });
 
     // Breathing Room Slider
     trackingSlider.addEventListener('input', () => {
@@ -1074,16 +1121,15 @@
     });
 
     // Dark Mode Toggle
+    let isDarkMode = false;
     themeToggleBtn.addEventListener('click', () => {
       isDarkMode = !isDarkMode;
       if (isDarkMode) {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeLabel.textContent = 'Light Mode';
-        readoutGrade.textContent = '-25 (Dark)';
       } else {
         document.documentElement.removeAttribute('data-theme');
         themeLabel.textContent = 'Dark Mode';
-        readoutGrade.textContent = '0 (Light)';
       }
     });
 
@@ -1103,6 +1149,9 @@
         }, 2000);
       });
     });
+
+    // Initial Frame
+    renderFrame(0);
   </script>
 </body>
 </html>
