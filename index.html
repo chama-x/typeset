@@ -1,1157 +1,580 @@
 <!DOCTYPE html>
-<html lang="en" data-palette="warm-paper">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Typeset — Kinetic Typography Cinema &amp; Interactive Museum</title>
-  <meta name="description" content="A cinematic, interactive motion-demonstration of digital typography physics. Opus 5.5-grade motionography, closed-form optical laws, and zero visual clutter.">
-  
-  <!-- Web Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,400..700;1,400&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400&display=swap" rel="stylesheet">
-
-  <style>
-    /* First-Principles UI: OKLCH Architectural Spine */
-    :root {
-      --hue: 75;
-      --bg: oklch(0.985 0.006 var(--hue));
-      --surface-1: oklch(0.995 0.003 var(--hue));
-      --surface-2: oklch(0.965 0.008 var(--hue));
-      --surface-elevated: oklch(1 0 0);
-      --border: oklch(0.88 0.008 var(--hue));
-      --border-subtle: oklch(0.93 0.005 var(--hue));
-      --fg: oklch(0.18 0.015 var(--hue));
-      --fg-muted: oklch(0.44 0.012 var(--hue));
-      --fg-subtle: oklch(0.58 0.010 var(--hue));
-      --accent: oklch(0.20 0.015 var(--hue));
-      --accent-contrast: oklch(0.99 0.002 var(--hue));
-      --badge-bg: oklch(0.94 0.008 var(--hue));
-      --badge-fg: oklch(0.28 0.015 var(--hue));
-      --math-bg: oklch(0.965 0.006 var(--hue));
-      --code-bg: oklch(0.15 0.015 var(--hue));
-      --code-fg: oklch(0.94 0.008 var(--hue));
-      
-      --font-core: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-signature: 'Instrument Serif', Georgia, serif;
-      --font-substrate: 'Fira Code', ui-monospace, monospace;
-      
-      --radius-sm: 6px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-    }
-
-    [data-theme="dark"] {
-      --hue: 75;
-      --bg: oklch(0.14 0.008 var(--hue));
-      --surface-1: oklch(0.18 0.010 var(--hue));
-      --surface-2: oklch(0.22 0.012 var(--hue));
-      --surface-elevated: oklch(0.24 0.012 var(--hue));
-      --border: oklch(0.28 0.010 var(--hue));
-      --border-subtle: oklch(0.22 0.008 var(--hue));
-      --fg: oklch(0.92 0.006 var(--hue));
-      --fg-muted: oklch(0.68 0.010 var(--hue));
-      --fg-subtle: oklch(0.50 0.008 var(--hue));
-      --accent: oklch(0.92 0.006 var(--hue));
-      --accent-contrast: oklch(0.14 0.008 var(--hue));
-      --badge-bg: oklch(0.24 0.012 var(--hue));
-      --badge-fg: oklch(0.85 0.008 var(--hue));
-      --math-bg: oklch(0.16 0.010 var(--hue));
-      --code-bg: oklch(0.10 0.008 var(--hue));
-      --code-fg: oklch(0.94 0.006 var(--hue));
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      background-color: var(--bg);
-      color: var(--fg);
-      font-family: var(--font-core);
-      font-size: 16px;
-      line-height: 1.58;
-      letter-spacing: 0;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      overflow-x: hidden;
-    }
-
-    /* 5 Canonical Typographic Size Tiers (Weber-Fechner Step >= 1.14x) */
-    .t-disp {
-      font-size: 64px;
-      line-height: 1.06;
-      letter-spacing: -0.031em;
-    }
-
-    .t-head {
-      font-size: 28px;
-      line-height: 1.25;
-      letter-spacing: -0.02em;
-    }
-
-    .t-subhead {
-      font-size: 20px;
-      line-height: 1.35;
-      letter-spacing: -0.015em;
-    }
-
-    .t-body {
-      font-size: 16px;
-      line-height: 1.58;
-      letter-spacing: 0em;
-    }
-
-    .t-cap {
-      font-size: 13px;
-      line-height: 1.45;
-      letter-spacing: 0.015em;
-    }
-
-    .shell {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-      container-type: inline-size;
-      min-width: 0;
-    }
-
-    /* Top Navigation Toolbar */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 0 32px;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 36px;
-      flex-wrap: wrap;
-      gap: 16px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: var(--fg);
-      min-width: 0;
-    }
-
-    .brand-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-sm);
-      background: var(--fg);
-      color: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-signature);
-      font-style: italic;
-      font-size: 20px;
-      flex-shrink: 0;
-      user-select: none;
-    }
-
-    .brand-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-tag {
-      font-size: 13px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 999px;
-      background: var(--badge-bg);
-      color: var(--badge-fg);
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      min-width: 0;
-    }
-
-    /* Fitts Touch Targets >= 36px */
-    .theme-toggle, .btn-action {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      color: var(--fg);
-      padding: 8px 18px;
-      min-height: 40px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      transition: border-color 0.15s ease, background 0.15s ease;
-    }
-
-    .theme-toggle:hover, .btn-action:hover {
-      border-color: var(--fg-subtle);
-    }
-
-    .theme-toggle:active, .btn-action:active {
-      transform: translateY(1px);
-    }
-
-    /* PRIMARY CINEMA SHOWCASE: The Motion Product Theater (Dominant D_Zipf >= 0.48) */
-    .motion-theater {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 56px 48px;
-      margin-bottom: 48px;
-      position: relative;
-      overflow: hidden;
-      min-width: 0;
-      min-height: 480px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    /* Cinematic Film Transport Bar */
-    .transport-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-      gap: 16px;
-      position: relative;
-      z-index: 10;
-    }
-
-    .act-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--fg);
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      padding: 8px 16px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .act-pulse-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #2BA064;
-    }
-
-    .playback-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .play-btn {
-      background: var(--fg);
-      color: var(--bg);
-      border: none;
-      padding: 8px 18px;
-      min-height: 40px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: opacity 0.15s ease;
-    }
-
-    .play-btn:hover {
-      opacity: 0.9;
-    }
-
-    /* The Choreographed Typography Stage */
-    .cinema-stage {
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      padding: 16px 0;
-    }
-
-    .cinema-headline {
-      font-size: 64px;
-      font-weight: 600;
-      line-height: 1.06;
-      letter-spacing: -0.031em;
-      color: var(--fg);
-      text-wrap: balance;
-      transition: letter-spacing 0.35s cubic-bezier(0.22, 1, 0.36, 1), font-family 0.3s ease, line-height 0.35s ease;
-    }
-
-    .cinema-headline em {
-      font-family: var(--font-signature);
-      font-style: italic;
-      font-weight: 400;
-      font-size: 1em;
-      letter-spacing: -0.015em;
-      padding: 0 0.04em;
-      transition: font-family 0.3s ease, font-style 0.3s ease;
-    }
-
-    .cinema-subtext {
-      font-size: 16px;
-      color: var(--fg-muted);
-      line-height: 1.6;
-      max-width: 35em;
-      margin-top: 16px;
-      transition: opacity 0.2s ease;
-    }
-
-    /* Interactive Timeline Scrubber */
-    .timeline-scrubber-row {
-      margin-top: 36px;
-      padding-top: 24px;
-      border-top: 1px dashed var(--border);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .timeline-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--fg-subtle);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-width: 110px;
-    }
-
-    input[type="range"] {
-      font-size: 16px;
-      flex: 1;
-      min-width: 140px;
-      accent-color: var(--fg);
-      height: 6px;
-      cursor: pointer;
-    }
-
-    .timeline-timestamp {
-      font-family: var(--font-substrate);
-      font-size: 16px;
-      font-weight: 600;
-      min-width: 50px;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* 1-Click Universal Install Bar */
-    .install-box {
-      background: var(--code-bg);
-      color: var(--code-fg);
-      border-radius: var(--radius-md);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 56px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .install-cmd {
-      font-family: var(--font-substrate);
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .install-prefix {
-      color: var(--fg-subtle);
-      user-select: none;
-    }
-
-    .copy-btn {
-      background: oklch(0.24 0.015 var(--hue));
-      border: 1px solid oklch(0.35 0.015 var(--hue));
-      color: var(--code-fg);
-      padding: 8px 18px;
-      min-height: 40px;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.15s ease;
-    }
-
-    .copy-btn:hover {
-      background: oklch(0.30 0.015 var(--hue));
-    }
-
-    .copy-btn:active {
-      transform: scale(0.98);
-    }
-
-    /* Section Headings */
-    .section-head {
-      margin-bottom: 24px;
-    }
-
-    .section-kicker {
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--fg-muted);
-      margin-bottom: 6px;
-    }
-
-    .section-title {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--fg);
-    }
-
-    .section-desc {
-      color: var(--fg-muted);
-      font-size: 16px;
-      max-width: 35em;
-      margin-top: 6px;
-    }
-
-    .stage-region {
-      margin-bottom: 56px;
-    }
-
-    /* 2-Column Symmetric Exhibits Grid */
-    .exhibits-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    .exhibit-card {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-width: 0;
-      min-height: 380px;
-    }
-
-    /* Standalone 85/15 Symphony Banner */
-    .symphony-banner {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 32px;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 860px) {
-      .exhibits-grid {
-        grid-template-columns: 1fr;
-      }
-      .motion-theater {
-        padding: 32px 24px;
-      }
-      .cinema-headline {
-        font-size: 40px !important;
-      }
-    }
-
-    .exhibit-badge {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--fg-muted);
-      margin-bottom: 8px;
-    }
-
-    .exhibit-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      margin-bottom: 8px;
-    }
-
-    .exhibit-body {
-      font-size: 16px;
-      color: var(--fg-muted);
-      line-height: 1.55;
-      max-width: 35em;
-    }
-
-    /* Interactive Demonstration Widgets */
-    .interactive-slider-box {
-      margin-top: 20px;
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 16px 20px;
-    }
-
-    .interactive-sample-text {
-      font-size: 28px;
-      font-weight: 600;
-      color: var(--fg);
-      white-space: nowrap;
-      overflow: hidden;
-      margin-bottom: 12px;
-      transition: letter-spacing 0.1s ease;
-    }
-
-    .slider-flex {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .slider-tag-val {
-      font-family: var(--font-substrate);
-      font-size: 16px;
-      font-weight: 600;
-      min-width: 60px;
-      text-align: right;
-    }
-
-    /* Button X-Ray Box */
-    .button-xray-box {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .btn-frame {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      text-align: center;
-    }
-
-    .btn-frame-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--fg-muted);
-      margin-bottom: 14px;
-    }
-
-    .demo-btn {
-      display: inline-block;
-      background: var(--fg);
-      color: var(--bg);
-      padding: 12px 24px;
-      min-height: 44px;
-      border-radius: 4px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      outline: 2px dashed #E05A47;
-      outline-offset: -2px;
-      cursor: pointer;
-    }
-
-    .demo-btn.trimmed {
-      outline-color: #2BA064;
-      text-box: trim-both cap alphabetic;
-    }
-
-    /* Tabular Demonstration Grid */
-    .tabular-demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .num-column {
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-    }
-
-    .num-column-head {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--fg-muted);
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .num-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      font-size: 13px;
-    }
-
-    .num-row .val-locked {
-      font-family: var(--font-substrate);
-      font-variant-numeric: tabular-nums slashed-zero;
-    }
-
-    .num-row .val-wobble {
-      font-family: var(--font-core);
-      font-variant-numeric: normal;
-    }
-
-    /* Table Scroll Guard */
-    .table-scroll {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      max-width: 100%;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: var(--surface-1);
-    }
-
-    .presets-table {
-      width: 100%;
-      min-width: 600px;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .presets-table th {
-      text-align: left;
-      padding: 14px 18px;
-      background: var(--surface-2);
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--fg);
-    }
-
-    .presets-table td {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 13px;
-      color: var(--fg-muted);
-    }
-
-    .presets-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .preset-title {
-      font-weight: 600;
-      color: var(--fg);
-    }
-
-    /* Collapsible Mathematical Inspector (Drawer for Engineers) */
-    .math-drawer-toggle {
-      width: 100%;
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 18px 24px;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--fg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      min-height: 44px;
-      text-align: left;
-      transition: background 0.15s ease;
-    }
-
-    .math-drawer-toggle:hover {
-      background: var(--surface-2);
-    }
-
-    .math-drawer-content {
-      display: none;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
-      padding: 24px;
-      margin-top: -6px;
-      margin-bottom: 48px;
-    }
-
-    .math-drawer-content.open {
-      display: block;
-    }
-
-    .formula-block {
-      background: var(--math-bg);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 14px;
-      font-family: var(--font-substrate);
-      font-size: 13px;
-      color: var(--fg);
-      margin: 10px 0 16px;
-      overflow-x: auto;
-    }
-
-    /* Footer */
-    .footer {
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--fg-subtle);
-      font-size: 13px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .footer a {
-      color: var(--fg-muted);
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>typeset — Make your interface decided.</title>
+<meta name="description" content="Typography rules your agent follows, so you don’t have to.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='8' fill='%23E8341C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<style>
+:root{
+  --paper:#F4F1EA; --card:#FDFCF9; --ink:#141413; --forest:#1E3F2E; --green:#285A40;
+  --muted:#6B675F; --red:#E8341C; --red-soft:rgba(232,52,28,.10);
+  --sans:'Inter',system-ui,sans-serif; --serif:'Newsreader',Georgia,serif;
+  --accent:'Instrument Serif',Georgia,serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;font-family:var(--sans)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* ---------- stage ---------- */
+.shell{position:fixed;inset:0;display:grid;place-items:center;
+  background:radial-gradient(ellipse at 50% 46%,#FBF9F4 0%,#EEEADF 100%)}
+.board{position:relative;width:1600px;height:920px;flex-shrink:0;transform-origin:center}
+
+/* ---------- top / bottom chrome ---------- */
+.bar{position:fixed;left:0;right:0;display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,3vw,44px);z-index:50}
+.bar.top{top:0;height:60px}
+.bar.bottom{bottom:0;height:60px}
+.brand{font-family:var(--serif);font-weight:600;font-size:23px;letter-spacing:-.03em;
+  display:inline-flex;align-items:center;gap:3px;text-decoration:none;color:var(--ink)}
+.brand-dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block}
+.telemetry{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:16px;
+  display:inline-flex;align-items:center;gap:8px}
+.telemetry i{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block}
+.telemetry.done i{background:var(--green)}
+.gh{font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--card);
+  border:1px solid rgba(20,20,19,.1);text-decoration:none;color:var(--ink)}
+.seg{display:inline-flex;background:#EAE5D9;border:1px solid rgba(20,20,19,.12);padding:3px;border-radius:999px}
+.seg button{font-size:13px;font-weight:500;padding:5px 18px;border-radius:999px;color:#5C5952;transition:background .2s,color .2s}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.link{font-size:13px;font-weight:500;color:#3A3833}
+.link:hover{color:var(--red)}
+
+/* ---------- center: the calm viewer ---------- */
+.hero{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);width:620px;
+  text-align:center;z-index:10}
+.eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--green);margin-bottom:20px}
+.h1{font-family:var(--serif);font-weight:400;font-size:80px;line-height:.98;letter-spacing:-.035em;
+  text-wrap:balance;margin-bottom:22px}
+.h1 em{font-family:var(--accent);font-style:italic;font-size:1.08em;color:var(--forest);letter-spacing:-.01em}
+.period{display:inline-block;position:relative;color:var(--red);opacity:0}
+.sub{font-size:16.5px;line-height:1.5;letter-spacing:-.011em;color:#4E4C46;max-width:470px;
+  margin:0 auto 26px;text-wrap:pretty}
+.pill{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:var(--card);
+  font-family:var(--mono);font-size:13.5px;padding:14px 24px;border-radius:999px;
+  box-shadow:0 12px 28px -10px rgba(20,20,19,.3);transition:transform .2s}
+.pill:hover{transform:translateY(-1px)}
+
+/* ---------- cards ---------- */
+.card{position:absolute;background:var(--card);border:1px solid rgba(20,20,19,.07);border-radius:16px;
+  box-shadow:0 8px 24px -10px rgba(20,20,19,.10),0 1px 2px rgba(20,20,19,.04);padding:16px 18px 12px;
+  contain:layout paint;z-index:5}
+.card.far{opacity:.55;filter:blur(.5px);z-index:2}
+.card.mid{opacity:.85;z-index:3}
+.card *{transition:letter-spacing .9s cubic-bezier(.3,0,.2,1),line-height .9s cubic-bezier(.3,0,.2,1),
+  font-size .9s cubic-bezier(.3,0,.2,1),max-width 1.8s cubic-bezier(.3,0,.2,1),color .6s,
+  font-weight .6s,transform .9s cubic-bezier(.3,0,.2,1),background-color .6s,padding .6s}
+.foot{display:flex;justify-content:space-between;margin-top:10px;padding-top:7px;
+  border-top:1px dashed rgba(20,20,19,.1);font-family:var(--mono);font-size:9px;color:#9A968C}
+.state{color:var(--red);background:var(--red-soft);padding:1px 6px;border-radius:4px;transition:color .5s,background .5s}
+.card.locked .state{color:var(--green);background:rgba(40,90,64,.1)}
+.swap{display:inline-block}
+
+/* 1 pricing */
+#c-price{left:60px;top:84px;width:300px;transform:rotate(-1.4deg)}
+.p-tier{font-size:13px;font-weight:600;color:#4B5563}
+.p-row{display:flex;align-items:baseline;margin-top:6px}
+.p-cur{font-size:44px;font-weight:700}
+.p-num{font-size:44px;font-weight:700;letter-spacing:.02em;
+  background:linear-gradient(90deg,#7C3AED,#EC4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-per{font-size:18px;color:#6B7280;margin-left:6px}
+#c-price.f1 .p-tier{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--green)}
+#c-price.f2 .p-cur{font-size:22px;transform:translateY(-16px);font-weight:500}
+#c-price.f2 .p-num{letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:var(--ink);background:none}
+#c-price.f2 .p-per{font-size:13px;margin-left:4px}
+
+/* 2 analytics table */
+#c-stats{left:1250px;top:300px;width:300px;background:#171817;color:#EDEBE5;transform:rotate(-1.2deg)}
+.s-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:#8E8C84;margin-bottom:8px}
+.s-r{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:#B5B3AB;padding:2px 0}
+.s-v{font-size:18px;font-weight:600;color:#FCA5A5;font-variant-numeric:proportional-nums}
+#c-stats.f1 .s-v{font-variant-numeric:tabular-nums;color:#fff;letter-spacing:-.02em}
+#c-stats .foot{border-top-color:rgba(255,255,255,.12)}
+
+/* 3 blog preview */
+#c-blog{left:420px;top:700px;width:760px;transform:rotate(.4deg)}
+.b-t{font-size:20px;font-weight:700;text-align:center;letter-spacing:.005em}
+.b-p{font-size:13px;line-height:1.25;color:#4A4842;text-align:center;max-width:720px;margin:6px auto 0}
+#c-blog.f1 .b-t{font-family:var(--serif);font-weight:500;font-size:21px;text-align:left;letter-spacing:-.015em;text-wrap:balance}
+#c-blog.f2 .b-p{text-align:left;max-width:500px;line-height:1.55;margin-left:0;text-wrap:pretty}
+
+/* 4 push notification */
+#c-push{left:430px;top:78px;width:300px;transform:rotate(-.8deg)}
+.n-app{font-size:10px;font-weight:700;color:#6B7280;letter-spacing:-.02em}
+.n-t{font-size:14px;font-weight:700;margin:3px 0 2px}
+.n-b{font-size:12.5px;color:#555;line-height:1.35}
+#c-push.f1 .n-app{font-family:var(--mono);font-weight:500;letter-spacing:.12em;color:var(--green)}
+#c-push.f2 .n-t{font-weight:600;letter-spacing:-.01em}
+
+/* 5 chat bubble */
+#c-chat{left:850px;top:82px;width:330px;transform:rotate(.9deg)}
+.ch-b{background:#EEF0F6;border-radius:14px 14px 14px 4px;padding:10px 12px;font-size:13.5px;line-height:1.45}
+.g{display:inline-block;border-radius:3px}
+.card:not(.locked) .g.bad{color:var(--red)}
+
+/* 6 signup button */
+#c-form{left:1250px;top:84px;width:300px;transform:rotate(1.5deg)}
+.fm-l{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px}
+.fm-in{height:34px;border:1px solid #D1D5DB;border-radius:8px;font-size:13px;color:#9CA3AF;
+  display:flex;align-items:center;padding:0 10px;margin-bottom:8px}
+.fm-btn{height:38px;border-radius:9px;background:var(--ink);color:#fff;font-size:14px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fm-btn span{display:inline-block;transform:translateY(3px)}
+@supports (text-box: trim-both cap alphabetic){
+  .fm-btn span{transform:none;text-box:normal}
+  #c-form.f1 .fm-btn span{text-box:trim-both cap alphabetic}
+}
+#c-form.f1 .fm-btn span{transform:none}
+#c-form.f1 .fm-btn{font-weight:500}
+#c-form.f2 .fm-l{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* 7 product card */
+#c-prod{left:60px;top:330px;width:300px;transform:rotate(-1deg)}
+.pr-t{font-size:16px;font-weight:600}
+.pr-m{font-size:13px;font-weight:600;color:#555;margin:3px 0}
+.pr-p{font-size:16px;font-weight:600}
+#c-prod.f1 .pr-t{font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:-.015em}
+#c-prod.f1 .pr-m{font-weight:400;color:var(--muted)}
+
+/* 8 calendar chip */
+#c-cal{left:1250px;top:560px;width:300px;background:#ECEAF6;transform:rotate(1.1deg)}
+.cal-t{font-size:15px;font-weight:700;letter-spacing:.01em}
+.cal-d{font-size:13px;color:#4B4670;margin-top:3px;font-variant-numeric:tabular-nums}
+#c-cal.f1 .cal-t{font-weight:600;letter-spacing:-.012em}
+
+/* 9 testimonial (mid) */
+#c-quote{left:84px;top:560px;width:280px;background:#F3EAD8;transform:rotate(1.2deg)}
+.q-q{font-size:15px;font-weight:600;line-height:1.4}
+.q-n{font-size:15px;font-weight:600;margin-top:6px}
+#c-quote.f1 .q-q{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.35}
+#c-quote.f1 .q-n{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* 10 KPI tile (far) */
+#c-kpi{left:440px;top:250px;width:150px;padding:12px 14px 10px}
+.k-v{font-size:30px;font-weight:700;letter-spacing:.03em}
+.k-u{font-size:30px;font-weight:700}
+#c-kpi.f1 .k-v{letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+#c-kpi.f1 .k-u{font-size:14px;font-weight:500;color:var(--muted);margin-left:2px}
+
+/* 11 empty state (far) */
+#c-empty{left:1010px;top:250px;width:160px;padding:12px 14px 10px;text-align:center}
+.e-t{font-size:14px;font-weight:700;background:linear-gradient(90deg,#2563EB,#9333EA);-webkit-background-clip:text;background-clip:text;color:transparent}
+.e-b{font-size:11px;color:#777;margin-top:3px}
+#c-empty.f1 .e-t{background:none;color:var(--ink);font-weight:600;font-family:var(--serif);font-size:15.5px}
+#c-empty.f1{text-align:left}
+
+/* 12 toast (far) */
+#c-toast{left:1020px;top:560px;width:160px;padding:12px 14px 10px}
+.t-t{font-size:12px;font-weight:700}
+.t-b{font-size:11px;color:#666;margin-top:2px}
+#c-toast.f1 .t-t{font-weight:600;letter-spacing:-.01em}
+
+/* ---------- marks & agents ---------- */
+#marks{position:absolute;inset:0;width:1600px;height:920px;pointer-events:none;z-index:20;overflow:visible}
+#marks path,#marks ellipse{fill:none;stroke:var(--red);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+#marks .hl{fill:rgba(232,52,28,.16);stroke:none;mix-blend-mode:multiply}
+.agents{position:absolute;inset:0;pointer-events:none;z-index:30}
+.agent{position:absolute;left:0;top:0;opacity:0;will-change:transform}
+.agent svg{width:18px;height:18px;filter:drop-shadow(0 2px 4px rgba(20,20,19,.25));transition:transform .12s}
+.agent.press svg{transform:scale(.85)}
+.tag{position:absolute;left:14px;top:16px;background:var(--red);color:#fff;font-family:var(--mono);
+  font-size:10px;padding:3px 7px;border-radius:6px;white-space:nowrap;box-shadow:0 4px 12px rgba(232,52,28,.3)}
+.agent.ink .tag{background:var(--ink)}
+.drop{position:absolute;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--red);z-index:40;pointer-events:none}
+
+@media (prefers-reduced-motion: reduce){ .card *{transition:none !important} }
+</style>
 </head>
 <body>
 
-  <main class="shell" data-mode="showcase">
-    <!-- Topbar Navigation Toolbar -->
-    <header class="topbar">
-      <a href="#" class="brand-mark">
-        <div class="brand-icon">T</div>
-        <div class="brand-title">Typeset</div>
-        <span class="brand-tag">Motion Cinema</span>
-      </a>
+<header class="bar top">
+  <div style="display:flex;align-items:center">
+    <a class="brand" href="#" aria-label="typeset">typeset<span class="brand-dot" id="brandDot"></span></a>
+    <span class="telemetry" id="tele" aria-live="polite"><i></i><span id="teleText">6 agents · 12 surfaces</span></span>
+  </div>
+  <a class="gh" href="https://github.com/chama-x/typeset" target="_blank" rel="noopener">GitHub</a>
+</header>
 
-      <div class="topbar-actions">
-        <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle Polarity">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          <span id="themeLabel">Dark Mode</span>
-        </button>
-        <a href="https://github.com/chama-x/typeset" target="_blank" rel="noopener" class="btn-action">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          <span>GitHub</span>
-        </a>
-      </div>
-    </header>
+<main class="shell">
+  <div class="board" id="board">
 
-    <!-- PRIMARY CINEMA SHOWCASE: The Motion Product Theater (Dominant D_Zipf >= 0.48) -->
-    <section class="motion-theater" id="motionTheater" data-stage="primary" aria-label="Cinematic Typography Demonstration">
-      <!-- Transport Bar -->
-      <div class="transport-bar">
-        <div class="act-indicator">
-          <span class="act-pulse-dot" id="pulseDot"></span>
-          <span id="actLabel">Act 1 &bull; Unchecked Web Defaults</span>
-        </div>
-
-        <div class="playback-controls">
-          <button class="play-btn" id="playPauseBtn" type="button">
-            <span id="playIcon">&block;&block;</span>
-            <span id="playText">Pause Demo</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Choreographed Typography Centerpiece -->
-      <div class="cinema-stage">
-        <h1 class="cinema-headline t-disp" id="cinemaTitle">
-          Mathematical harmony for <em id="signatureAccent">bespoke digital substrates.</em>
-        </h1>
-        <p class="cinema-subtext" id="cinemaNarrative">
-          Standard web interfaces guess typography arbitrarily, resulting in loose tracking, reading fatigue, and jarring layout shifts.
-        </p>
-      </div>
-
-      <!-- Scrubber Timeline -->
-      <div class="timeline-scrubber-row">
-        <span class="timeline-label">Film Scrubber</span>
-        <input type="range" id="filmScrubber" min="0" max="1000" value="0" step="1" aria-label="Scrub through motion demonstration">
-        <span class="timeline-timestamp" id="timestampReadout">0.0s</span>
-      </div>
+    <section class="hero" aria-label="Hero">
+      <div class="eyebrow">An agent skill for typography</div>
+      <h1 class="h1" id="h1">Make your interface <em id="decided">decided<span class="period" id="period">.</span></em></h1>
+      <p class="sub">Your agent writes the UI. typeset makes it read like a designer set it — kerning, wrap, figures, punctuation, trim. You never think about it again.</p>
+      <button class="pill" id="install">npx skills add chama-x/typeset</button>
     </section>
 
-    <!-- 1-Click Universal Install Bar -->
-    <div class="install-box">
-      <div class="install-cmd">
-        <span class="install-prefix">$</span>
-        <span>npx skills add chama-x/typeset -a antigravity</span>
-      </div>
-      <button class="copy-btn" id="copyBtn" type="button">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        <span id="copyBtnText">Copy Command</span>
-      </button>
-    </div>
+    <!-- 1 pricing -->
+    <article class="card" id="c-price">
+      <div class="p-tier">Studio License</div>
+      <div class="p-row"><span class="p-cur">$</span><span class="p-num">49</span><span class="p-per"><span class="swap" data-raw="/Month" data-fix="/mo">/Month</span></span></div>
+      <div class="foot"><span>pricing</span><span class="state">default</span></div>
+    </article>
 
-    <!-- THE 5 HUMAN TYPOGRAPHY EXHIBITS -->
-    <section class="stage-region" data-stage="secondary">
-      <div class="section-head">
-        <div class="section-kicker">Interactive Physical Exhibits</div>
-        <h2 class="section-title">The Physical Laws Humans Feel</h2>
-        <p class="section-desc">Why digital interfaces feel either amateurish and exhausting or sharp, calm, and unforgettable.</p>
-      </div>
+    <!-- 2 stats -->
+    <article class="card" id="c-stats">
+      <div class="s-h">LIVE METRICS</div>
+      <div class="s-r"><span>Throughput</span><span class="s-v" data-n="4820.5" data-u=" req/s">4,820.50 req/s</span></div>
+      <div class="s-r"><span>P99 latency</span><span class="s-v" data-n="111.1" data-u=" ms">111.10 ms</span></div>
+      <div class="s-r"><span>Change</span><span class="s-v"><span class="swap g bad" data-raw="-12%" data-fix="−12%">-12%</span></span></div>
+      <div class="foot"><span>dashboard</span><span class="state">default</span></div>
+    </article>
 
-      <div class="exhibits-grid">
-        <!-- Exhibit 1: Breathing Room -->
-        <div class="exhibit-card">
-          <div>
-            <div class="exhibit-badge">Exhibit 1 &bull; Optical Tracking</div>
-            <h3 class="exhibit-title">The Breathing Room</h3>
-            <p class="exhibit-body">
-              When headlines get massive, letters shout if they drift apart. When labels get tiny, ink clumps together. Big letters hug closer; micro text spreads its wings.
-            </p>
-            <div class="interactive-slider-box" data-viz="true">
-              <div class="interactive-sample-text" id="breathingText">SCULPTURAL CRAFT</div>
-              <div class="slider-flex">
-                <input type="range" id="trackingSlider" min="-40" max="60" value="-25" step="1" aria-label="Adjust letter tracking">
-                <span class="slider-tag-val" id="trackingReadout">-0.025em</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- 3 blog -->
+    <article class="card" id="c-blog">
+      <div class="b-t"><span class="swap" data-raw="🚀 Why Reading Width Matters More Than You Think" data-fix="Why reading width matters more than you think">🚀 Why Reading Width Matters More Than You Think</span></div>
+      <p class="b-p">When paragraphs stretch across wide containers with tight line-height, readers lose their place on the return sweep. Pulling the measure back to roughly 62 characters restores an <span class="swap g bad" data-raw="&quot;effortless&quot;" data-fix="“effortless”">"effortless"</span> rhythm.</p>
+      <div class="foot"><span>article</span><span class="state">default</span></div>
+    </article>
 
-        <!-- Exhibit 2: The Night Glare Shield -->
-        <div class="exhibit-card">
-          <div>
-            <div class="exhibit-badge">Exhibit 2 &bull; TrueGrade Polarity</div>
-            <h3 class="exhibit-title">The Night Glare Shield</h3>
-            <p class="exhibit-body">
-              Bright pixels bleed into your retina in the dark like oncoming car headlights. Typeset automatically sheds font weight in dark mode without shifting a single pixel of layout.
-            </p>
-            <div class="interactive-slider-box" data-viz="true">
-              <div class="interactive-sample-text" style="font-size: 20px;">Light: Standard &bull; Dark: -35 Offset</div>
-            </div>
-          </div>
-        </div>
+    <!-- 4 push -->
+    <article class="card" id="c-push">
+      <div class="n-app">LINEAR · NOW</div>
+      <div class="n-t"><span class="swap" data-raw="Your Deploy Is Complete!!" data-fix="Your deploy is complete">Your Deploy Is Complete!!</span></div>
+      <div class="n-b">Build 2.4.1 shipped to production <span class="swap g bad" data-raw="-" data-fix="—">-</span> 3 checks passed.</div>
+      <div class="foot"><span>notification</span><span class="state">default</span></div>
+    </article>
 
-        <!-- Exhibit 3: The Phantom Airspace -->
-        <div class="exhibit-card">
-          <div>
-            <div class="exhibit-badge">Exhibit 3 &bull; W3C Metric Box Trim</div>
-            <h3 class="exhibit-title">The Phantom Airspace</h3>
-            <p class="exhibit-body">
-              Standard web buttons place invisible font half-leading above capital letters, making labels sag. Typeset slices off phantom padding for exact optical centering.
-            </p>
-            <div class="button-xray-box" data-viz="true">
-              <div class="btn-frame">
-                <div class="btn-frame-title">Default CSS (Asymmetric Sag)</div>
-                <button class="demo-btn" type="button">Deploy Contract</button>
-              </div>
-              <div class="btn-frame">
-                <div class="btn-frame-title">Typeset Trimmed (Dead Center)</div>
-                <button class="demo-btn trimmed" type="button">Deploy Contract</button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- 5 chat -->
+    <article class="card" id="c-chat">
+      <div class="ch-b">Sure<span class="swap g bad" data-raw="!! 😊 " data-fix=". ">!! 😊 </span>I<span class="swap g bad" data-raw="'" data-fix="’">'</span>ve updated the layout<span class="swap g bad" data-raw=" -- " data-fix=" — ">--</span>let me know what you think<span class="swap g bad" data-raw="..." data-fix="…">...</span></div>
+      <div class="foot"><span>assistant reply</span><span class="state">default</span></div>
+    </article>
 
-        <!-- Exhibit 4: Rock-Solid Numbers -->
-        <div class="exhibit-card">
-          <div>
-            <div class="exhibit-badge">Exhibit 4 &bull; Tabular Metrics</div>
-            <h3 class="exhibit-title">Rock-Solid Numbers</h3>
-            <p class="exhibit-body">
-              Standard numbers wobble because 1 is skinny and 8 is wide. In financial tickers and timers, every digit must march in locked alignment.
-            </p>
-            <div class="tabular-demo-grid" data-viz="true">
-              <div class="num-column">
-                <div class="num-column-head">Proportional (Wobble)</div>
-                <div class="num-row"><span>ETH-USD</span><span class="val-wobble">$3,111.11</span></div>
-                <div class="num-row"><span>SOL-USD</span><span class="val-wobble">$188.88</span></div>
-                <div class="num-row"><span>BTC-USD</span><span class="val-wobble">$68,000.00</span></div>
-              </div>
-              <div class="num-column">
-                <div class="num-column-head">Typeset (Locked)</div>
-                <div class="num-row"><span>ETH-USD</span><span class="val-locked">$3,111.11</span></div>
-                <div class="num-row"><span>SOL-USD</span><span class="val-locked">$188.88</span></div>
-                <div class="num-row"><span>BTC-USD</span><span class="val-locked">$68,000.00</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- 6 form -->
+    <article class="card" id="c-form">
+      <div class="fm-l">Email Address</div>
+      <div class="fm-in">you@company.com</div>
+      <div class="fm-btn"><span>Continue</span></div>
+      <div class="foot"><span>signup</span><span class="state">default</span></div>
+    </article>
 
-      <!-- Exhibit 5: 85/15 Symphony Standalone Banner -->
-      <div class="symphony-banner">
-        <div class="exhibit-badge">Guiding Law &bull; Surface Entropy</div>
-        <h3 class="exhibit-title">The 85 / 15 Symphony</h3>
-        <p class="exhibit-body">
-          If an entire room is in costume shouting, it is chaos. 85% of your interface must be quiet, functional architecture. Reserve the 15% sculptural flair for moments of genuine delight.
-        </p>
-      </div>
-    </section>
+    <!-- 7 product -->
+    <article class="card mid" id="c-prod">
+      <div class="pr-t">Linen Wall Print</div>
+      <div class="pr-m"><span class="swap g bad" data-raw="12 x 18 in" data-fix="12 × 18 in">12 x 18 in</span> · Ships in <span class="swap g bad" data-raw="3-5" data-fix="3–5">3-5</span> days</div>
+      <div class="pr-p"><span class="swap" data-raw="$1299.00" data-fix="$1,299">$1299.00</span></div>
+      <div class="foot"><span>product</span><span class="state">default</span></div>
+    </article>
 
-    <!-- Curated Trilogy Presets -->
-    <section class="stage-region">
-      <div class="section-head">
-        <div class="section-kicker">Curated Stacks</div>
-        <h2 class="section-title">De-Clich&eacute;d Font Pairings</h2>
-        <p class="section-desc">Legally embeddable open-source type combinations built for high-density interfaces.</p>
-      </div>
+    <!-- 8 calendar -->
+    <article class="card" id="c-cal">
+      <div class="cal-t"><span class="swap" data-raw="Design Review Meeting" data-fix="Design review">Design Review Meeting</span></div>
+      <div class="cal-d"><span class="swap g bad" data-raw="9:00-10:30 AM" data-fix="9:00–10:30 AM">9:00-10:30 AM</span> · <span class="swap g bad" data-raw="Oct 31 - Nov 2" data-fix="Oct 31 – Nov 2">Oct 31 - Nov 2</span></div>
+      <div class="foot"><span>event</span><span class="state">default</span></div>
+    </article>
 
-      <div class="table-scroll">
-        <table class="presets-table">
-          <thead>
-            <tr>
-              <th style="width: 28%;">Preset</th>
-              <th style="width: 26%;">85% Core (UI &amp; Body)</th>
-              <th style="width: 24%;">15% Signature (Display)</th>
-              <th style="width: 22%;">Substrate (Code &amp; Long Reading)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="preset-title">Preset A: Architectural</td>
-              <td>Aspekta &bull; Switzer &bull; Plus Jakarta</td>
-              <td>Instrument Serif &bull; Newsreader</td>
-              <td>Monaspace Neon &bull; Fira Code</td>
-            </tr>
-            <tr>
-              <td class="preset-title">Preset B: Humanist Craft</td>
-              <td>General Sans &bull; Schibsted Grotesk</td>
-              <td>Sentient &bull; Fraunces</td>
-              <td>Literata &bull; Lilex</td>
-            </tr>
-            <tr>
-              <td class="preset-title">Preset C: Independent Studio</td>
-              <td>Roobert &bull; ABC Diatype &bull; S&ouml;hne</td>
-              <td>GT Alpina &bull; PP Editorial Old</td>
-              <td>GT Alpina Typewriter &bull; Intel One</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+    <!-- 9 testimonial -->
+    <article class="card mid" id="c-quote">
+      <div class="q-q"><span class="swap g bad" data-raw="&quot;" data-fix="“">"</span>We stopped arguing about kerning in reviews.<span class="swap g bad" data-raw="&quot;" data-fix="”">"</span></div>
+      <div class="q-n">Clara Okafor, Design Lead</div>
+      <div class="foot"><span>testimonial</span><span class="state">default</span></div>
+    </article>
 
-    <!-- Collapsible Mathematical Specifications Drawer (Engineers & AI Agents) -->
-    <section class="stage-region">
-      <button class="math-drawer-toggle" id="mathDrawerToggle" type="button" aria-expanded="false">
-        <span>Mathematical Invariants &amp; Closed-Form Equations</span>
-        <span id="drawerCaret">&darr;</span>
-      </button>
+    <!-- 10 kpi (far) -->
+    <article class="card far" id="c-kpi"><span class="k-v">98.4</span><span class="k-u">%</span></article>
+    <!-- 11 empty (far) -->
+    <article class="card far" id="c-empty"><div class="e-t"><span class="swap" data-raw="✨ No Projects Yet!" data-fix="No projects yet">✨ No Projects Yet!</span></div><div class="e-b">Create one to get started.</div></article>
+    <!-- 12 toast (far) -->
+    <article class="card far" id="c-toast"><div class="t-t"><span class="swap" data-raw="✅ Saved Successfully!" data-fix="Saved">✅ Saved Successfully!</span></div><div class="t-b">Changes synced.</div></article>
 
-      <div class="math-drawer-content" id="mathDrawerContent">
-        <p class="exhibit-body">
-          Closed-form physical formulas implemented by the <code>typeset</code> agent skill:
-        </p>
+    <svg id="marks" viewBox="0 0 1600 920" aria-hidden="true"></svg>
+    <div class="agents" id="agents" aria-hidden="true"></div>
+  </div>
+</main>
 
-        <div class="formula-block">
-          <strong>Law 2 (Logarithmic Tracking):</strong> &tau;(s) = clamp(-0.045em, -0.022 &bull; ln(s / 16)em, +0.025em)
-        </div>
+<footer class="bar bottom">
+  <span class="link" style="color:var(--muted)">12 surfaces · 0 decisions for you</span>
+  <div class="seg" role="group" aria-label="Typography mode">
+    <button id="mDefault" aria-pressed="false">Default AI</button>
+    <button id="mTypeset" aria-pressed="true">Typeset</button>
+  </div>
+  <button class="link" id="replay">Replay</button>
+</footer>
 
-        <div class="formula-block">
-          <strong>Law 3 (Hyperbolic Leading):</strong> &lambda;(s, M) = 1.02 + 8.5/s + 0.003 &bull; max(0, M - 55)
-        </div>
+<script>
+(() => {
+'use strict';
+const board = document.getElementById('board');
+const marksSvg = document.getElementById('marks');
+const agentsEl = document.getElementById('agents');
+const period = document.getElementById('period');
+const tele = document.getElementById('tele'), teleText = document.getElementById('teleText');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let scale = 1, tl = null, jitterId = null;
 
-        <div class="formula-block">
-          <strong>Law 4 (Harmonic Fluid Scale):</strong> font-size(n) = clamp(S_min rem, b rem + 100m vw, S_max rem)
-        </div>
+/* ---------- fit ---------- */
+function fit(){ scale = Math.min(innerWidth/1640, innerHeight/960, 1.1); board.style.transform = `scale(${scale})`; }
+addEventListener('resize', fit); fit();
 
-        <div class="formula-block">
-          <strong>Law 5 (TrueGrade Polarity):</strong> GRAD(P) = -25 &bull; P &emsp;|&emsp; &Delta;w(P) = -35 &bull; P
-        </div>
-      </div>
-    </section>
+/* ---------- geometry: board-local rect of any element ---------- */
+function rect(el){
+  const b = board.getBoundingClientRect(), r = el.getBoundingClientRect();
+  return { x:(r.left-b.left)/scale, y:(r.top-b.top)/scale, w:r.width/scale, h:r.height/scale };
+}
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div>
-        Created for <strong>Google Antigravity</strong> and AI Agents &bull; Released under MIT License.
-      </div>
-      <div>
-        <a href="https://github.com/chama-x/typeset" target="_blank" rel="noopener">GitHub Repository</a>
-      </div>
-    </footer>
-  </main>
+/* ---------- agents ---------- */
+const AGENTS = [
+  {id:'kern',  x:-40,  y:200, ink:false},
+  {id:'wrap',  x:820,  y:960, ink:false},
+  {id:'glyph', x:1640, y:150, ink:true },
+  {id:'trim',  x:1640, y:520, ink:false},
+  {id:'tnum',  x:1640, y:860, ink:false},
+  {id:'scale', x:-40,  y:640, ink:true }
+];
+const ARROW = c => `<svg viewBox="0 0 20 20"><path d="M3 2L17 9.5L10.2 11.3L7.5 18L3 2Z" fill="${c}" stroke="#fff" stroke-width="1.5"/></svg>`;
+AGENTS.forEach(a => {
+  const el = document.createElement('div');
+  el.className = 'agent' + (a.ink ? ' ink' : '');
+  el.innerHTML = ARROW(a.ink ? '#141413' : '#E8341C') + `<span class="tag">${a.id}</span>`;
+  agentsEl.appendChild(el); a.el = el;
+});
 
-  <!-- Highfield Katana & Remotion-Calibrated Motionography Engine -->
-  <script>
-    const filmScrubber = document.getElementById('filmScrubber');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon = document.getElementById('playIcon');
-    const playText = document.getElementById('playText');
-    const actLabel = document.getElementById('actLabel');
-    const pulseDot = document.getElementById('pulseDot');
-    const cinemaTitle = document.getElementById('cinemaTitle');
-    const signatureAccent = document.getElementById('signatureAccent');
-    const cinemaNarrative = document.getElementById('cinemaNarrative');
-    const timestampReadout = document.getElementById('timestampReadout');
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    const themeLabel = document.getElementById('themeLabel');
-    const copyBtn = document.getElementById('copyBtn');
-    const copyBtnText = document.getElementById('copyBtnText');
-    const mathDrawerToggle = document.getElementById('mathDrawerToggle');
-    const mathDrawerContent = document.getElementById('mathDrawerContent');
-    const drawerCaret = document.getElementById('drawerCaret');
-    const trackingSlider = document.getElementById('trackingSlider');
-    const trackingReadout = document.getElementById('trackingReadout');
-    const breathingText = document.getElementById('breathingText');
+/* ---------- fix script: [agent, card, startTime, targetSelector, mark, class?, label] ---------- */
+/* Uneven, overlapping, hand-tuned durations: the board settles like rain stopping. */
+const FIXES = [
+  ['glyph','c-chat',  0.6, '.ch-b',      'circle', null, 'curly ’ … —'],
+  ['kern', 'c-price', 0.8, '.p-tier',    'under',  'f1', '+0.12em caps'],
+  ['trim', 'c-form',  1.0, '.fm-btn',    'hl',     'f1', 'trim-both'],
+  ['tnum', 'c-stats', 1.2, '.s-v',       'circle', 'f1', 'tabular-nums'],
+  ['wrap', 'c-blog',  1.4, '.b-t',       'hl',     'f1', 'balance'],
+  ['scale','c-prod',  1.6, '.pr-t',      'under',  'f1', '2 weights'],
+  ['kern', 'c-push',  3.6, '.n-app',     'under',  'f1', '+0.12em caps'],
+  ['glyph','c-cal',   3.9, '.cal-d',     'circle', null, 'en dash –'],
+  ['tnum', 'c-stats', 4.3, '.s-r:nth-child(4)', 'circle', null, 'true minus −'],
+  ['scale','c-quote', 4.5, '.q-q',       'hl',     'f1', 'voice'],
+  ['wrap', 'c-blog',  4.9, '.b-p',       'under',  'f2', '62ch · 1.55', 4.2],
+  ['trim', 'c-form',  4.4, '.fm-l',      'under',  'f2', 'label caps'],
+  ['kern', 'c-price', 6.8, '.p-row',     'circle', 'f2', 'sup $ · kern'],
+  ['glyph','c-prod',  6.9, '.pr-m',      'circle', null, '× and –'],
+  ['tnum', 'c-kpi',   7.4, '.k-v',       'under',  'f1', 'unit scale'],
+  ['scale','c-empty', 7.8, '.e-t',       'hl',     'f1', 'no gradient'],
+  ['trim', 'c-push',  8.4, '.n-t',       'hl',     'f2', 'sentence case'],
+  ['glyph','c-quote', 9.6, '.q-q',       'circle', null, '“ ”'],
+  ['kern', 'c-cal',  10.4, '.cal-t',     'under',  'f1', 'sentence case'],
+  ['scale','c-toast',11.2, '.t-t',       'hl',     'f1', 'calm toast'],
+  ['glyph','c-blog', 12.6, '.b-p',       'circle', null, '“ ”'],
+  ['kern', 'c-price',14.6, '.p-per',     'under',  null, '/mo']          /* the last lock, alone */
+];
 
-    let isPlaying = true;
-    let progress = 0; // 0 to 1000
-    const durationMs = 12000; // 12 seconds full choreographed loop
-    let lastTime = performance.now();
+/* ---------- hand-drawn marks ---------- */
+function wobble(n){ return (Math.sin(n*12.9898)*43758.5453 % 1) * 2.2; }
+function makeMark(type, r, seed){
+  const NS = 'http://www.w3.org/2000/svg';
+  let el;
+  if (type === 'hl'){
+    el = document.createElementNS(NS,'path'); el.setAttribute('class','hl');
+    const x=r.x-4, y=r.y+r.h*.12, w=r.w+8, h=r.h*.82;
+    el.setAttribute('d',`M${x},${y+2} Q${x+w/2},${y-2} ${x+w},${y+1} L${x+w-2},${y+h} Q${x+w/2},${y+h+2} ${x+2},${y+h-1} Z`);
+    gsap.set(el,{scaleX:0,transformOrigin:'0% 50%'});
+  } else if (type === 'circle'){
+    el = document.createElementNS(NS,'path');
+    const cx=r.x+r.w/2, cy=r.y+r.h/2, rx=r.w/2+9, ry=r.h/2+6, pts=[];
+    for (let i=0;i<=26;i++){ const a=i/24*Math.PI*2 - .4; const j=wobble(seed+i);
+      pts.push(`${(cx+Math.cos(a)*(rx+j)).toFixed(1)},${(cy+Math.sin(a)*(ry+j*.6)).toFixed(1)}`); }
+    el.setAttribute('d','M'+pts.join(' L'));
+  } else {
+    el = document.createElementNS(NS,'path');
+    const y=r.y+r.h+3, x0=r.x, x1=r.x+r.w; let d=`M${x0},${y}`;
+    for (let x=x0+8, k=0; x<=x1; x+=8, k++) d += ` Q${x-4},${y+(k%2?-3:3)} ${x},${y}`;
+    el.setAttribute('d',d);
+  }
+  marksSvg.appendChild(el);
+  if (type !== 'hl'){ const L = el.getTotalLength(); el.style.strokeDasharray=L; el.style.strokeDashoffset=L; el._len=L; }
+  return el;
+}
 
-    // 4-Act Storyboard
-    function renderFrame(p) {
-      const t = (p / 1000) * 12; // current seconds
-      timestampReadout.textContent = t.toFixed(1) + 's';
+/* ---------- glyph swaps: crossfade, never pop ---------- */
+function swapAll(scope, toFix, animate){
+  scope.querySelectorAll('.swap').forEach(s => {
+    const txt = toFix ? s.dataset.fix : s.dataset.raw;
+    if (s.textContent === txt) return;
+    if (!animate){ s.textContent = txt; s.classList.toggle('bad', !toFix && s.classList.contains('g')); return; }
+    gsap.timeline()
+      .to(s,{y:-5,opacity:0,duration:.18,ease:'power2.in'})
+      .add(()=>{ s.textContent = txt; })
+      .fromTo(s,{y:5,opacity:0},{y:0,opacity:1,duration:.24,ease:'power2.out'});
+  });
+}
 
-      if (p < 250) {
-        // ACT 1: Unchecked Web Defaults (0s - 3s)
-        actLabel.textContent = 'Act 1 • Uncalibrated System Sans';
-        pulseDot.style.background = '#E05A47';
-        cinemaTitle.style.fontFamily = 'system-ui, -apple-system, sans-serif';
-        cinemaTitle.style.letterSpacing = '-0.030em';
-        cinemaTitle.style.lineHeight = '1.25';
-        cinemaTitle.style.fontWeight = '500';
-        signatureAccent.style.fontFamily = 'inherit';
-        signatureAccent.style.fontStyle = 'normal';
-        signatureAccent.style.fontWeight = '600';
-        cinemaNarrative.textContent = 'Default system sans lacks optical grade compensation: blunt letterforms, unadjusted vertical rhythm, and zero vocal character.';
-      } else if (p < 500) {
-        // ACT 2: Logarithmic Gravity (3s - 6s)
-        actLabel.textContent = 'Act 2 • Logarithmic Optical Gravity';
-        pulseDot.style.background = '#3B82F6';
-        cinemaTitle.style.fontFamily = 'var(--font-core)';
-        cinemaTitle.style.letterSpacing = '-0.034em';
-        cinemaTitle.style.lineHeight = '1.12';
-        cinemaTitle.style.fontWeight = '600';
-        signatureAccent.style.fontFamily = 'var(--font-core)';
-        signatureAccent.style.fontStyle = 'normal';
-        signatureAccent.style.fontWeight = '600';
-        cinemaNarrative.textContent = 'Law 2 engages: letter-spacing tightens logarithmically as scale expands, eliminating loose display drift.';
-      } else if (p < 750) {
-        // ACT 3: Sculptural Voice Shift (6s - 9s)
-        actLabel.textContent = 'Act 3 • Sculptural Voice Shift';
-        pulseDot.style.background = '#8B5CF6';
-        cinemaTitle.style.fontFamily = 'var(--font-core)';
-        cinemaTitle.style.letterSpacing = '-0.032em';
-        cinemaTitle.style.lineHeight = '1.06';
-        cinemaTitle.style.fontWeight = '600';
-        signatureAccent.style.fontFamily = 'var(--font-signature)';
-        signatureAccent.style.fontStyle = 'italic';
-        signatureAccent.style.fontWeight = '400';
-        cinemaNarrative.textContent = 'Law 1 & 5: High-fashion italic serifs bloom inside the grotesque ground, normalized to the primary x-height.';
-      } else {
-        // ACT 4: Metric Surgery & Locked Harmonic State (9s - 12s)
-        actLabel.textContent = 'Act 4 • Metric Precision Lock';
-        pulseDot.style.background = '#2BA064';
-        cinemaTitle.style.fontFamily = 'var(--font-core)';
-        cinemaTitle.style.letterSpacing = '-0.031em';
-        cinemaTitle.style.lineHeight = '1.06';
-        cinemaTitle.style.fontWeight = '600';
-        signatureAccent.style.fontFamily = 'var(--font-signature)';
-        signatureAccent.style.fontStyle = 'italic';
-        signatureAccent.style.fontWeight = '400';
-        cinemaNarrative.textContent = 'Metric box-trimming strips phantom half-leading. Live metrics lock into zero-wobble tabular columns.';
-      }
+/* ---------- live numbers: proportional jitter only while raw ---------- */
+function startJitter(){
+  stopJitter();
+  const vals = document.querySelectorAll('#c-stats .s-v[data-n]');
+  jitterId = setInterval(()=>{
+    if (document.getElementById('c-stats').classList.contains('f1')) return;
+    vals.forEach(v => { const n=+v.dataset.n*(1+(Math.random()-.5)*.04);
+      v.textContent = n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + v.dataset.u; });
+  }, 140);
+}
+function stopJitter(){ if (jitterId){ clearInterval(jitterId); jitterId=null; } }
+
+/* ---------- state helpers ---------- */
+const cards = [...document.querySelectorAll('.card')];
+function setRaw(){
+  cards.forEach(c => { c.classList.remove('f1','f2','locked'); swapAll(c,false,false);
+    const s=c.querySelector('.state'); if (s) s.textContent='default'; });
+  marksSvg.innerHTML=''; document.querySelectorAll('.drop').forEach(d=>d.remove());
+  gsap.set(period,{opacity:0,scale:1}); tele.classList.remove('done'); teleText.textContent='6 agents · 12 surfaces';
+  AGENTS.forEach(a=>{ a.el.classList.remove('press'); gsap.set(a.el,{opacity:0,x:a.x,y:a.y}); });
+}
+function lockCard(c, animate){
+  c.classList.add('locked'); const s=c.querySelector('.state'); if (s) s.textContent='typeset';
+  if (animate) gsap.fromTo(c,{y:-1.5},{y:0,duration:.5,ease:'back.out(3)'});
+}
+function setDecided(){
+  setRaw();
+  FIXES.forEach(f => { const c=document.getElementById(f[1]); if (f[5]) c.classList.add(f[5]); });
+  cards.forEach(c => { swapAll(c,true,false); lockCard(c,false); });
+  gsap.set(period,{opacity:1}); tele.classList.add('done'); teleText.textContent='Decided';
+  setMode(true);
+}
+function setMode(dec){
+  document.getElementById('mTypeset').setAttribute('aria-pressed',String(dec));
+  document.getElementById('mDefault').setAttribute('aria-pressed',String(!dec));
+}
+
+/* ---------- the film ---------- */
+function play(){
+  if (tl) tl.kill();
+  setRaw(); setMode(false); startJitter();
+  tl = gsap.timeline({ onComplete: stopJitter });
+
+  // arrive: cards breathe in
+  tl.from(cards,{opacity:0,y:14,duration:.7,stagger:{each:.035,from:'random'},ease:'power2.out',clearProps:'transform,opacity'},0);
+  tl.set(cards,{clearProps:'opacity'},0.75);
+
+  // per-card remaining-fix counter → lock when 0
+  const remaining = {}; FIXES.forEach(f=>remaining[f[1]]=(remaining[f[1]]||0)+1);
+  const pos = {}; AGENTS.forEach(a=>pos[a.id]={x:a.x,y:a.y});
+  const agentFree = {}; AGENTS.forEach(a=>agentFree[a.id]=0);
+  const allMarks = []; let lastEnd = 0;
+
+  FIXES.forEach((f, i) => {
+    const [aid, cid, start, sel, mtype, cls, label, scrubDur] = f;
+    const a = AGENTS.find(x=>x.id===aid), card = document.getElementById(cid);
+    const target = card.querySelector(sel) || card;
+    const r = rect(target);
+    const to = { x: r.x + Math.min(r.w*.85, r.w-6), y: r.y + r.h*.6 };
+    const from = pos[aid];
+    const dist = Math.hypot(to.x-from.x, to.y-from.y);
+    const travel = gsap.utils.clamp(.55, 1.15, dist/850);
+    const t0 = Math.max(start, agentFree[aid]);
+    // arc: perpendicular control point ~14% of distance
+    const mx=(from.x+to.x)/2, my=(from.y+to.y)/2, nx=-(to.y-from.y)/(dist||1), ny=(to.x-from.x)/(dist||1);
+    const bend = dist*.14*(i%2?1:-1), cx=mx+nx*bend, cy=my+ny*bend;
+    const p = {t:0};
+    tl.to(a.el,{opacity:1,duration:.3},t0);
+    tl.to(p,{t:1,duration:travel,ease:'power3.inOut',onUpdate(){
+        const t=p.t, u=1-t, ov = Math.sin(Math.min(t,1)*Math.PI)*0; // base
+        gsap.set(a.el,{x:u*u*from.x+2*u*t*cx+t*t*to.x, y:u*u*from.y+2*u*t*cy+t*t*to.y});
+      }},t0);
+    // arrival overshoot settle
+    tl.to(a.el,{x:to.x+3,y:to.y+2,duration:.12,ease:'power1.out'},t0+travel);
+    tl.to(a.el,{x:to.x,y:to.y,duration:.25,ease:'back.out(2)'},t0+travel+.12);
+    const tag = a.el.querySelector('.tag');
+    tl.add(()=>{ tag.textContent = `${aid} · ${label}`; }, t0+travel);
+    // dwell (reads), then the mark draws
+    const tm = t0+travel+.22;
+    const mark = makeMark(mtype, r, i*7);
+    allMarks.push(mark);
+    if (mtype==='hl') tl.to(mark,{scaleX:1,duration:.35,ease:'power2.out'},tm);
+    else tl.to(mark,{strokeDashoffset:0,duration:.4,ease:'power1.inOut'},tm);
+    // press → fix → release
+    const tf = tm+.45, fixDur = scrubDur || 1.0;
+    tl.add(()=>a.el.classList.add('press'), tf);
+    tl.add(()=>{ if (cls) card.classList.add(cls);
+      // only swap the glyphs inside this target (or whole card for its glyph agent)
+      swapAll(aid==='glyph'||!cls ? target : target, true, true); }, tf);
+    if (scrubDur) { // slow drag: agent rides the shrinking edge
+      tl.to(a.el,{x:to.x-(r.w*.3),duration:scrubDur,ease:'power1.inOut'},tf);
     }
+    tl.add(()=>{ a.el.classList.remove('press'); tag.textContent = aid; }, tf+fixDur);
+    tl.to(mark,{opacity:.55,duration:.4},tf+fixDur);
+    const end = tf+fixDur;
+    tl.add(()=>{ if(--remaining[cid]===0) lockCard(card,true); }, end);
+    agentFree[aid] = end + .1; pos[aid] = {x: scrubDur ? to.x-r.w*.3 : to.x, y: to.y};
+    lastEnd = Math.max(lastEnd, end);
+  });
 
-    // Motion Loop
-    function tick(now) {
-      if (isPlaying) {
-        const delta = now - lastTime;
-        progress = (progress + (delta / durationMs) * 1000) % 1000;
-        filmScrubber.value = Math.round(progress);
-        renderFrame(progress);
-      }
-      lastTime = now;
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
+  /* ---------- finale: the full stop ---------- */
+  const T = lastEnd + .45;
+  tl.add(()=>{ teleText.textContent='Setting the last mark…'; }, T);
+  const pr = rect(period), P = {x: pr.x + pr.w*.42, y: pr.y + pr.h*.78};
+  // 1. marks soak back, outermost first
+  const sorted = allMarks.map(m=>{ const b=m.getBBox(); return {m, d:Math.hypot(b.x+b.width/2-800,b.y+b.height/2-460), b}; })
+                         .sort((p,q)=>q.d-p.d);
+  sorted.forEach((o,k)=>{
+    const at = T + k*.035;
+    if (o.m.classList.contains('hl')) tl.to(o.m,{scaleX:0,transformOrigin:'100% 50%',duration:.4,ease:'power2.in'},at);
+    else tl.to(o.m,{strokeDashoffset:o.m._len,duration:.45,ease:'power2.in'},at);
+  });
+  // 2. ink droplets from 8 regions + cursors become dots, all arcing inward
+  const sources = sorted.filter((_,k)=>k%3===0).slice(0,8).map(o=>({x:o.b.x+o.b.width/2,y:o.b.y+o.b.height/2}));
+  const dropT = T + .35;
+  sources.forEach((s,k)=>{
+    const d = document.createElement('div'); d.className='drop'; board.appendChild(d);
+    gsap.set(d,{x:s.x,y:s.y,scale:0});
+    const q={t:0}, cx=(s.x+P.x)/2 + (k%2?-60:60), cy=Math.min(s.y,P.y)-80;
+    tl.to(d,{scale:1,duration:.2},dropT+k*.04);
+    tl.to(q,{t:1,duration:.95,ease:'power2.inOut',onUpdate(){ const t=q.t,u=1-t;
+      gsap.set(d,{x:u*u*s.x+2*u*t*cx+t*t*P.x, y:u*u*s.y+2*u*t*cy+t*t*P.y, scale:1-t*.3}); }},dropT+k*.04);
+  });
+  AGENTS.forEach((a,k)=>{
+    const tag=a.el.querySelector('.tag'), svg=a.el.querySelector('svg');
+    tl.to(tag,{opacity:0,scale:.6,duration:.25},dropT);
+    tl.to(svg,{scale:.35,duration:.35,ease:'power2.in'},dropT);
+    tl.to(a.el,{x:P.x-6,y:P.y-6,duration:1,ease:'power3.inOut'},dropT+.1+k*.03);
+    tl.to(a.el,{opacity:0,duration:.15},dropT+1.05+k*.03);
+  });
+  // 3. converge → one red period, ink settle
+  const land = dropT + 1.25;
+  tl.add(()=>document.querySelectorAll('.drop').forEach(d=>gsap.to(d,{opacity:0,duration:.12,onComplete:()=>d.remove()})), land-.05);
+  tl.set(period,{opacity:1,scaleX:1.25,scaleY:.8,transformOrigin:'50% 85%'},land);
+  tl.to(period,{scaleX:.94,scaleY:1.06,duration:.14,ease:'power2.out'},land);
+  tl.to(period,{scaleX:1,scaleY:1,duration:.5,ease:'elastic.out(1,.5)'},land+.14);
+  // 4. the brand dot answers
+  tl.fromTo('#brandDot',{scale:1.25},{scale:1,duration:.5,ease:'back.out(3)'},land+.08);
+  tl.add(()=>{ tele.classList.add('done'); teleText.textContent='Decided'; setMode(true);
+    AGENTS.forEach(a=>{ gsap.set(a.el.querySelector('.tag'),{clearProps:'all'}); gsap.set(a.el.querySelector('svg'),{clearProps:'transform'}); });
+  }, land+.1);
+}
 
-    // Play/Pause
-    playPauseBtn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        playIcon.innerHTML = '&block;&block;';
-        playText.textContent = 'Pause Demo';
-      } else {
-        playIcon.innerHTML = '&#9658;';
-        playText.textContent = 'Resume Motion';
-      }
-    });
+/* ---------- controls ---------- */
+document.getElementById('replay').onclick = () => reduce ? setDecided() : play();
+document.getElementById('mTypeset').onclick = () => { if (tl) tl.kill(); stopJitter(); setDecided(); };
+document.getElementById('mDefault').onclick = () => { if (tl) tl.kill(); setRaw(); setMode(false); startJitter(); };
+document.getElementById('install').onclick = e => {
+  navigator.clipboard?.writeText('npx skills add chama-x/typeset');
+  const b=e.currentTarget, t=b.textContent; b.textContent='Copied ✓'; setTimeout(()=>b.textContent=t,1400);
+};
+document.addEventListener('visibilitychange', () => { if (!tl) return; document.hidden ? tl.pause() : tl.resume(); });
 
-    // Scrubber Interaction
-    filmScrubber.addEventListener('input', () => {
-      isPlaying = false;
-      playIcon.innerHTML = '&#9658;';
-      playText.textContent = 'Resume Motion';
-      progress = parseInt(filmScrubber.value, 10);
-      renderFrame(progress);
-    });
-
-    // Breathing Room Slider
-    trackingSlider.addEventListener('input', () => {
-      const val = parseInt(trackingSlider.value, 10) / 1000;
-      trackingReadout.textContent = (val >= 0 ? '+' : '') + val.toFixed(3) + 'em';
-      breathingText.style.letterSpacing = val + 'em';
-    });
-
-    // Dark Mode Toggle
-    let isDarkMode = false;
-    themeToggleBtn.addEventListener('click', () => {
-      isDarkMode = !isDarkMode;
-      if (isDarkMode) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeLabel.textContent = 'Light Mode';
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-        themeLabel.textContent = 'Dark Mode';
-      }
-    });
-
-    // Mathematical Drawer Toggle
-    mathDrawerToggle.addEventListener('click', () => {
-      const isOpen = mathDrawerContent.classList.toggle('open');
-      mathDrawerToggle.setAttribute('aria-expanded', isOpen);
-      drawerCaret.innerHTML = isOpen ? '&uarr;' : '&darr;';
-    });
-
-    // Copy Button
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('npx skills add chama-x/typeset -a antigravity').then(() => {
-        copyBtnText.textContent = 'Copied to Clipboard!';
-        setTimeout(() => {
-          copyBtnText.textContent = 'Copy Command';
-        }, 2000);
-      });
-    });
-
-    // Initial Frame
-    renderFrame(0);
-  </script>
+/* ---------- boot ---------- */
+addEventListener('DOMContentLoaded', () => {
+  const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+  Promise.race([fonts, new Promise(r=>setTimeout(r,1500))]).then(()=>{
+    if (!window.gsap){ setDecidedNoGsap(); return; }
+    fit();
+    reduce ? setDecided() : play();
+  });
+});
+function setDecidedNoGsap(){
+  cards.forEach(c=>{ c.classList.add('f1','f2','locked');
+    c.querySelectorAll('.swap').forEach(s=>s.textContent=s.dataset.fix); });
+  period.style.opacity=1;
+}
+})();
+</script>
 </body>
 </html>
